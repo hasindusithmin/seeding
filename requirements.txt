@@ -2,3 +2,4 @@ fastapi
 uvicorn
 uuid0
 Faker
+ninja2
