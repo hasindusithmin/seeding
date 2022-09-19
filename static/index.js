@@ -110,7 +110,30 @@ const ask_question_4 = ()=>{
 }
 
 const genFile = ()=>{
-    
+    let url = '/gen?'
+    const fields = JSON.parse(sessionStorage.getItem('fields'))
+    const notnull = JSON.parse(sessionStorage.getItem('notnull'))
+    const rowqty = sessionStorage.getItem('rowqty')
+    const table = sessionStorage.getItem('table_name')
+    fields.forEach(field => {
+        url += `field=${field}&`
+    });
+    notnull.forEach(elem => {
+        url += `notnull=${elem}&`
+    });
+    url += `rowqty=${rowqty}&`
+    url += `table=${table}`
+    console.log(url);
+    fetch(url,{
+        method:'GET',
+        headers:{
+            'Content-Type': 'application/json'
+        }
+    })
+        .then((res)=>res.json())
+        .then(data=>{
+            console.log(data);
+        })
 }
 
 entry()

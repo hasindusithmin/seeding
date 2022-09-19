@@ -1,7 +1,11 @@
+import os
+from uuid0 import generate
+from time import sleep
 from faker import Faker
+from typing import List, Union
 from inspect import getdoc
-from fastapi import FastAPI,Request
-from fastapi.responses import HTMLResponse
+from fastapi import FastAPI,Request,Query,BackgroundTasks
+from fastapi.responses import HTMLResponse,FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
@@ -33,3 +37,57 @@ def get_method_with_description():
             doc = f'Generate {article} {method}'
         method_with_desc.append({'method':method,'desc':doc})
     return method_with_desc
+
+def delete_file(path):
+    sleep(5)
+    os.remove(path)
+
+@app.get('/gen')
+async def genarate_sql(rowqty:int,backgroundTasks:BackgroundTasks,table:str,field:Union[List[str], None]=Query(default=None),notnull:Union[List[int], None]=Query(default=None)):
+    path = os.getcwd() + '/files'
+    file = generate().base62 + '.sql'
+    path += f'/{file}'
+    with open(path,'w') as fl:
+        fl.write(f'CREATE TABLE {table} (\n')
+        fl.write('\bid uuid PRIMARY KEY DEFAULT uuid_generate_v4(),\n')
+        i = 1
+        field_copy = field.copy()
+        last = field_copy.pop()
+        for f in field:
+            datatype = 'TEXT' if eval(f'type(faker.{f}())') == str else 'INT' if eval(f'type(faker.{f}())') == int else 'FLOAT'
+            if f == last:
+                if i in notnull:
+                    fl.write(f'\b{f} {datatype} NOT NULL\n')
+                else:
+                    fl.write(f'\b{f} {datatype}\n')
+            else:
+                if i in notnull:
+                    fl.write(f'\b{f} {datatype} NOT NULL,\n')
+                else:
+                    fl.write(f'\b{f} {datatype},\n')
+            i+=1
+        fl.write(');\n')
+        for i in range(rowqty):
+            fl.write(f'INSERT INTO {table} (')
+            for f in field:
+                if f == last:
+                    fl.write(f'{f})')
+                else:
+                    fl.write(f'{f},')
+            fl.write(' VALUES (')
+            for f in field:
+                value = eval(f'faker.{f}()')
+                dtype = type(value)
+                if f == last:
+                    if dtype == str:
+                        fl.write(f"\'{value}\');\n")
+                    else:
+                        fl.write(f'{value});\n')
+                else:
+                    if dtype == str:
+                        fl.write(f"\'{value}\',")
+                    else:
+                        fl.write(f'{value},')
+        fl.close()
+        backgroundTasks.add_task(delete_file,path)
+        return FileResponse(path,filename=f"{table}.sql")
