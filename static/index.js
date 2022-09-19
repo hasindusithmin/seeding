@@ -123,17 +123,7 @@ const genFile = ()=>{
     });
     url += `rowqty=${rowqty}&`
     url += `table=${table}`
-    console.log(url);
-    fetch(url,{
-        method:'GET',
-        headers:{
-            'Content-Type': 'application/json'
-        }
-    })
-        .then((res)=>res.json())
-        .then(data=>{
-            console.log(data);
-        })
+    window.location.replace(url)
 }
 
 entry()
