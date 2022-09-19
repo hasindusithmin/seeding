@@ -2,11 +2,13 @@ from faker import Faker
 from inspect import getdoc
 from fastapi import FastAPI,Request
 from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 # `app` instance 
 app = FastAPI()
-
+# For serve static Files 
+app.mount("/static", StaticFiles(directory="static"), name="static")
 # `faker` instance 
 faker = Faker()
 
