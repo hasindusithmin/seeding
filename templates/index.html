@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,8 +8,18 @@
     <title>Seeding</title>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
+
 <body>
-    <div id="root"></div>
+    <div id="root" class="w3-margin-top"></div>
+    <script>
+        if ("ontouchstart" in document.documentElement) {
+            console.log('mobile')
+        }
+        else {
+            document.getElementById('root').style.cssText = 'margin:auto;width:50%;';
+        }
+    </script>
     <script src="/static/index.js"></script>
 </body>
+
 </html>

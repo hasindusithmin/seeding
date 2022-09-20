@@ -3,6 +3,7 @@ const entry = () => {
     sessionStorage.clear()
     const table_name = document.createElement('input');
     table_name.id = 'question_1';
+    table_name.className = 'w3-input w3-border'
     table_name.placeholder = 'Enter table name';
     table_name.onchange = e => {
         const _ = e.target.value;
@@ -16,6 +17,7 @@ const ask_question_2 = () => {
     document.getElementById('root').innerText = ''
     const fieldqty = document.createElement('input');
     fieldqty.placeholder = 'Field Quantity'
+    fieldqty.className = 'w3-input w3-border'
     fieldqty.id = 'question_2';
     fieldqty.placeholder = 'Enter number of fields';
     fieldqty.type = 'number'
@@ -36,6 +38,7 @@ const ask_question_3 = async () => {
         document.getElementById('root').appendChild(genOptions(data, i))
     }
     const btn = document.createElement('button');
+    btn.className = 'w3-button w3-blue'
     btn.innerText = 'Ok';
     btn.onclick = ()=>{
         const qty = sessionStorage.getItem('fieldqty');
@@ -64,10 +67,12 @@ const genOptions = (data, index) => {
     const h5 = document.createElement('h5');
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox'
+    checkbox.className = 'w3-check'
     const span = document.createElement('span')
-    span.innerHTML = 'Not Null'
+    span.innerHTML = 'Not Null  '
     h5.innerText = `Field ${index}`;
     const select = document.createElement('select');
+    select.className = 'w3-input w3-border'
     const option = document.createElement('option');
     option.innerText = "select"
     select.appendChild(option)
@@ -98,6 +103,7 @@ const genOptions = (data, index) => {
 const ask_question_4 = ()=>{
     document.getElementById('root').innerText = ''
     const rowqty = document.createElement('input');
+    rowqty.className = 'w3-input w3-border'
     rowqty.placeholder = 'Row Quantity'
     rowqty.placeholder = 'Enter number of rows';
     rowqty.type = 'number'

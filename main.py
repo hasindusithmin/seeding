@@ -44,9 +44,8 @@ def delete_file(path):
 
 @app.get('/gen')
 async def genarate_sql(rowqty:int,backgroundTasks:BackgroundTasks,table:str,field:Union[List[str], None]=Query(default=None),notnull:Union[List[int], None]=Query(default=None)):
-    path = os.getcwd() + '/files'
     file = generate().base62 + '.sql'
-    path += f'/{file}'
+    path = f'files/{file}'
     with open(path,'w') as fl:
         fl.write(f'CREATE TABLE {table} (\n')
         fl.write('\bid uuid PRIMARY KEY DEFAULT uuid_generate_v4(),\n')
