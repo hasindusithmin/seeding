@@ -92,5 +92,9 @@ async def genarate_sql(rowqty:int,backgroundTasks:BackgroundTasks,table:str,fiel
         backgroundTasks.add_task(delete_file,path)
         return FileResponse(path,filename=f"{table}.sql")
 
+@app.get('/alive')
+def keep_alive():
+    return 200
+
 if __name__=="__main__":
     uvicorn.run(app,host='0.0.0.0',port=8000)
