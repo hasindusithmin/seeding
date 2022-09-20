@@ -5,7 +5,7 @@ from time import sleep
 from faker import Faker
 from typing import List, Union
 from inspect import getdoc
-from fastapi import FastAPI,Request,Query,BackgroundTasks
+from fastapi import FastAPI,Request,Query,BackgroundTasks,status
 from fastapi.responses import HTMLResponse,FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -94,7 +94,7 @@ async def genarate_sql(rowqty:int,backgroundTasks:BackgroundTasks,table:str,fiel
 
 @app.get('/alive')
 def keep_alive():
-    return 200
+    return status.HTTP_200_OK
 
 if __name__=="__main__":
     uvicorn.run(app,host='0.0.0.0',port=8000)
