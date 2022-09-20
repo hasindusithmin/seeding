@@ -1,4 +1,5 @@
 import os
+import uvicorn
 from uuid0 import generate
 from time import sleep
 from faker import Faker
@@ -90,3 +91,6 @@ async def genarate_sql(rowqty:int,backgroundTasks:BackgroundTasks,table:str,fiel
         fl.close()
         backgroundTasks.add_task(delete_file,path)
         return FileResponse(path,filename=f"{table}.sql")
+
+if __name__=="__main__":
+    uvicorn.run(app,host='0.0.0.0',port=8000)
